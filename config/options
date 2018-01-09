@@ -85,15 +85,7 @@ fi
 # directory.
   CCACHE_CACHE_SIZE="10G"
 
-# read options from $HOME if available
-  if [ -f "$HOME/.libreelec/options" ]; then
-    . $HOME/.libreelec/options
-  fi
-
-# install devtools on development builds
-  if [ -z "$DEVTOOLS" -a "$LIBREELEC_VERSION" = "devel" ]; then
-    DEVTOOLS=yes
-  fi
+  DEVTOOLS=yes
 
 # overwrite OEM_SUPPORT via commandline
 if [ "$OEM" = yes -o "$OEM" = no ]; then
