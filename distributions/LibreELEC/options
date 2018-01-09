@@ -13,12 +13,12 @@
 # Welcome Message for e.g. SSH Server (up to 5 Lines)
   GREETING0="##############################################"
   GREETING1="#                  LibreELEC                 #"
-  GREETING2="#            https://libreelec.tv            #"
+  GREETING2="#            http://alexelec.in.ua           #"
   GREETING3="##############################################"
   GREETING4=""
 
 # Root password to integrate in the target system
-  ROOT_PASSWORD="libreelec"
+  ROOT_PASSWORD="mcpc"
 
 # Install glibc locales to the build (yes / no)
   GLIBC_LOCALES="yes"
@@ -29,7 +29,7 @@
 # Skins to install (Estuary)
 # Space separated list is supported,
 # e.g. SKINS="Estuary"
-  SKINS="Estuary"
+  SKINS="Estuary AeonNox"
 
 # Default Skin (Estuary)
   SKIN_DEFAULT="Estuary"
@@ -100,6 +100,12 @@
 
 # build with Samba Client support (mounting SAMBA shares with KODI) (yes / no)
   KODI_SAMBA_SUPPORT="yes"
+
+# include initial language addons for Kodi (yes / no)
+  KODI_LANGUAGE_ADDONS="yes"
+
+# list language addons for Kodi (ru_ru de_de en_us pl_pl ...)
+  KODI_LANGUAGE_LIST="ru_ru"
 
 # build with NFS support (mounting nfs shares via the OS) (yes / no)
   NFS_SUPPORT="yes"
@@ -173,7 +179,7 @@
   TESTING="no"
 
 # OEM packages for OEM's (yes / no)
-  OEM_SUPPORT="no"
+  OEM_SUPPORT="yes"
 
 # build and install nano text editor (yes / no)
   NANO_EDITOR="yes"
@@ -183,7 +189,7 @@
 
 # Distribution Specific source location
   DISTRO_MIRROR="http://sources.libreelec.tv/mirror"
-  DISTRO_SRC="http://sources.libreelec.tv/$LIBREELEC_VERSION"
+  DISTRO_SRC="http://sources.libreelec.tv/devel"
 
 # Addon Server Url
   ADDON_SERVER_URL="http://addons.libreelec.tv"
