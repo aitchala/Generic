@@ -1,21 +1,7 @@
 #!/bin/bash
-
 ################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  OpenELEC is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
+#      This file is part of Alex@ELEC - http://www.alexelec.in.ua
+#      Copyright (C) 2011-present Alexandr Zuyev (alex@alexelec.in.ua)
 ################################################################################
 
 ################################################################################
@@ -291,39 +277,9 @@ fi # bootloader
   echo "image: checking filesystem on part1..."
   fsck -n $LE_TMP/part1.fat >"$SAVE_ERROR" 2>&1 || show_error
 
-# create virtual image
-  if [ "$PROJECT" = "Generic" ]; then
-    echo "image: creating open virtual appliance..."
-    # duplicate $DISK so anything we do to it directly doesn't effect original
-    dd if="$DISK" of="${DISK/img/tmp}" bs=1M >"$SAVE_ERROR" 2>&1 || show_error
-    # change syslinux default to 'run'
-    echo "image: modifying fs on part1 for open virtual appliance..."
-    sed -i "/DEFAULT/ s/installer/run/" "$LE_TMP"/syslinux.cfg
-    # FIXME: an unalias should work here, but it does not; call mcopy directly
-    $TOOLCHAIN/bin/mcopy -i $LE_TMP/part1.fat -o "$LE_TMP"/syslinux.cfg ::/EFI/BOOT
-    $TOOLCHAIN/bin/mcopy -i $LE_TMP/part1.fat -o "$LE_TMP"/syslinux.cfg ::
-    sync
-    # merge modified part1 back to tmp disk image
-    echo "image: merging part1 back to open virtual appliance..."
-    dd if="$LE_TMP/part1.fat" of="${DISK/img/tmp}" bs=512 seek="$SYSTEM_PART_START" conv=fsync,notrunc >"$SAVE_ERROR" 2>&1 || show_error
-    # create vmdk from tmp $DISK
-    qemu-img convert -O vmdk -o subformat=streamOptimized "${DISK/img/tmp}" "${DISK/img/vmdk}"
-    # generate ovf from template
-    sed -e "s,@DISTRO@,$DISTRO,g" -e "s,@DISK@,$(basename ${DISK/.img}),g" \
-        -e "s,@DISK_SIZE@,$(($DISK_SIZE*1024*1024)),g" \
-        $PROJECT_DIR/$PROJECT/config/ovf.template > ${DISK/img/ovf}
-    # combine ovf and vmdk into official ova
-    tar -C $TARGET_IMG -cf ${DISK/img/ova} $(basename ${DISK/img/ovf}) $(basename ${DISK/img/vmdk})
-    echo "image: cleaning up..."
-    # remove tmp $DISK, vmdk and ovf
-    rm ${DISK/img/tmp} ${DISK/img/vmdk} ${DISK/img/ovf}
-    # set owner
-    [ -n "$SUDO_USER" ] && chown $SUDO_USER: ${DISK/img/ova}
-  fi
-
 # gzip
   echo "image: compressing..."
-  gzip $DISK
+  gzip < $DISK > $DISK.gz
 
 # set owner
   if [ -n "$SUDO_USER" ] ; then
