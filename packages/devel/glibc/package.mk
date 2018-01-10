@@ -121,8 +121,10 @@ post_makeinstall_target() {
 
 # create locale
   rm -rf $INSTALL/usr/share/i18n/charmaps
-  mkdir -p $INSTALL/usr/share/i18n/charmaps
-    cp -PR $PKG_BUILD/localedata/charmaps/*.gz $INSTALL/usr/share/i18n/charmaps
+    cp -PR $PKG_BUILD/localedata/charmaps $INSTALL/usr/share/i18n
+    for file_charmap in $(ls $INSTALL/usr/share/i18n/charmaps); do
+      gzip $INSTALL/usr/share/i18n/charmaps/$file_charmap
+    done
 
   mkdir -p $INSTALL/usr/config/locale
     [ -e $PKG_DIR/config/locale-archive ] && cp $PKG_DIR/config/locale-archive $INSTALL/usr/config/locale
