@@ -1,0 +1,35 @@
+#!/bin/sh
+################################################################################
+#      This file is part of Alex@ELEC - http://www.alexelec.in.ua
+#      Copyright (C) 2011-present Alexandr Zuyev (alex@alexelec.in.ua)
+################################################################################
+
+# oscam config
+OSCAM_HOME="/storage/.config/oscam"
+
+mkdir -p $OSCAM_HOME/config
+mkdir -p $OSCAM_HOME/log
+mkdir -p $OSCAM_HOME/log/cw
+mkdir -p $OSCAM_HOME/log/emm
+
+for config_name in \
+  oscam.ac oscam.cert oscam.dvbapi oscam.guess oscam.ird oscam.provid \
+  oscam.server oscam.services oscam.srvid oscam.tiers oscam.user
+do
+  [ ! -f $OSCAM_HOME/config/$config_name ] && touch $OSCAM_HOME/config/$config_name
+done
+
+if [ -x $OSCAM_HOME/bin/oscam ]; then
+  BIN_CAM="$OSCAM_HOME/bin/oscam"
+else
+  BIN_CAM="/usr/bin/oscam"
+fi
+
+if [ -f $OSCAM_HOME/bin/oscam.cfg ]; then
+  . $OSCAM_HOME/bin/oscam.cfg
+  ARG_CAM="$OSCAM_ARGS"
+else
+  ARG_CAM="-r 2 -u"
+fi
+
+exec $BIN_CAM $ARG_CAM -c $OSCAM_HOME/config > /dev/null 2>&1
