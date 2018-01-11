@@ -1,5 +1,5 @@
 <settings>
-    <setting id="CurrentLocation" value="true" />
+    <setting id="CurrentLocation" value="false" />
     <setting id="Language" value="0" />
     <setting id="Location1" value="Алматы" />
     <setting id="Location1ID" value="5205" />
