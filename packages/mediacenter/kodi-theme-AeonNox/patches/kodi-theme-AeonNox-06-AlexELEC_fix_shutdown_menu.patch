@@ -1,0 +1,41 @@
+diff -Naurp kodi-theme-AeonNox-216cc97/1080i/DialogButtonMenu.xml kodi-theme-AeonNox-216cc97-patch/1080i/DialogButtonMenu.xml
+--- kodi-theme-AeonNox-216cc97/1080i/DialogButtonMenu.xml	2018-01-11 10:15:16.000000000 +0200
++++ kodi-theme-AeonNox-216cc97-patch/1080i/DialogButtonMenu.xml	2018-01-10 16:50:20.000000000 +0200
+@@ -58,18 +58,6 @@
+ 				<visible>System.HasAlarm(shutdowntimer)</visible>
+                 <align>center</align>
+ 			</control>
+-			<control type="button" id="5">
+-				<description>Games</description>
+-				<width>510</width>
+-				<height>60</height>
+-				<textwidth>435</textwidth>
+-				<textoffsetx>45</textoffsetx>
+-				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
+-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
+-				<onclick>Quit()</onclick>
+-				<label>13012</label>
+-				<align>center</align>
+-			</control>
+ 			<control type="button" id="6">
+ 				<description>Suspend button</description>
+ 				<width>510</width>
+@@ -83,18 +71,6 @@
+ 				<label>13011</label>
+                 <align>center</align>
+ 			</control>
+-			<control type="button" id="7">
+-				<description>Hibernate button</description>
+-				<width>510</width>
+-				<height>60</height>
+-				<textwidth>435</textwidth>
+-				<textoffsetx>45</textoffsetx>
+-				<texturefocus border="35,2,35,2">button_shutdown_focus.png</texturefocus>
+-				<texturenofocus border="35,2,35,2">button_shutdown_nofocus.png</texturenofocus>
+-				<onclick>Hibernate()</onclick>
+-				<label>13010</label>
+-                <align>center</align>
+-			</control>
+ 			<control type="button" id="8">
+ 				<description>Logoff button</description>
+ 				<width>510</width>
