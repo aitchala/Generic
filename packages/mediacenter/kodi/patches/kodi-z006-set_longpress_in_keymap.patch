@@ -1,0 +1,27 @@
+diff -Naurp kodi-a9a7a20/system/keymaps/keyboard.xml kodi-a9a7a20-patch/system/keymaps/keyboard.xml
+--- kodi-a9a7a20/system/keymaps/keyboard.xml	2018-01-11 10:56:21.000000000 +0200
++++ kodi-a9a7a20-patch/system/keymaps/keyboard.xml	2018-01-11 11:00:16.000000000 +0200
+@@ -52,6 +52,7 @@
+       <m>Menu</m>
+       <n mod="ctrl">ActivateWindow(PlayerControls)</n>
+       <s>ActivateWindow(ShutdownMenu)</s>
++      <s mod="longpress">ShutDown()</s>
+       <escape>PreviousMenu</escape>
+       <escape mod="longpress">Back</escape>
+       <i>Info</i>
+@@ -95,6 +96,7 @@
+       <home>FirstPage</home>
+       <end>LastPage</end>
+       <power>ActivateWindow(ShutdownMenu)</power>
++      <power mod="longpress">ShutDown()</power>
+       <sleep>ActivateWindow(ShutdownMenu)</sleep>
+       <!-- PVR windows -->
+       <e>ActivateWindow(TVGuide)</e>
+@@ -344,6 +346,7 @@
+       <menu>OSD</menu>
+       <i>Info</i>
+       <o>PlayerProcessInfo</o>
++      <o mod="longpress">PlayerDebug</o>
+       <o mod="ctrl,shift">PlayerDebug</o>
+       <z>AspectRatio</z>
+       <zoom>AspectRatio</zoom>
