@@ -1,24 +1,43 @@
 <settings>
+    <addons>
+        <unknownsources>true</unknownsources>
+    </addons>
     <debug>
-        <screenshotpath pathversion="1">/storage/screenshots/</screenshotpath>
+        <extralogging>false</extralogging>
+        <screenshotpath>/storage/screenshots/</screenshotpath>
+        <setextraloglevel default="true">32768</setextraloglevel>
+        <showloginfo default="true">false</showloginfo>
     </debug>
+    <eventlog>
+        <enabled>false</enabled>
+        <enablednotifications default="true">false</enablednotifications>
+    </eventlog>
     <general>
+        <addonbrokenfilter default="true">true</addonbrokenfilter>
+        <addonforeignfilter default="true">false</addonforeignfilter>
+        <addonnotifications default="true">false</addonnotifications>
+        <addonupdates default="true">0</addonupdates>
         <settinglevel>3</settinglevel>
+        <eventlog>
+            <level>0</level>
+            <showhigherlevels>true</showhigherlevels>
+        </eventlog>
+        <systemtotaluptime>14</systemtotaluptime>
     </general>
     <locale>
         <audiolanguage default="true">original</audiolanguage>
         <charset default="true">DEFAULT</charset>
-        <country default="true">Russia</country>
-        <keyboardlayouts default="true">English QWERTY|Russian ЙЦУКЕН</keyboardlayouts>
-        <language default="true">resource.language.ru_ru</language>
+        <country>Russia</country>
+        <keyboardlayouts>English QWERTY|Russian ЙЦУКЕН</keyboardlayouts>
+        <language>resource.language.ru_ru</language>
         <longdateformat default="true">regional</longdateformat>
         <shortdateformat default="true">regional</shortdateformat>
         <speedunit default="true">regional</speedunit>
         <subtitlelanguage default="true">original</subtitlelanguage>
         <temperatureunit default="true">regional</temperatureunit>
         <timeformat default="true">regional</timeformat>
-        <timezone>Europe/Kiev</timezone>
-        <timezonecountry>Ukraine</timezonecountry>
+        <timezone>Asia/Almaty</timezone>
+        <timezonecountry>Kazakhstan</timezonecountry>
         <use24hourclock default="true">regional</use24hourclock>
     </locale>
     <lookandfeel>
@@ -38,7 +57,7 @@
         <confirmchannelswitch default="true">false</confirmchannelswitch>
         <enableradiords>false</enableradiords>
         <fps default="true">0</fps>
-        <playminimized>true</playminimized>
+        <playminimized default="true">true</playminimized>
         <scantime default="true">10</scantime>
         <signalquality>true</signalquality>
         <startlast default="true">0</startlast>
