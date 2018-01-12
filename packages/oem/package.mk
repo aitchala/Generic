@@ -17,7 +17,7 @@ PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
 # tv services
-#  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET tvheadend oscam"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET tvheadend oscam"
 
 # services net
 #  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET transmission"
