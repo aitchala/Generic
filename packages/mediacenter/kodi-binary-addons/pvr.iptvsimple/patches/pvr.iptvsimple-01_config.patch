@@ -16,15 +16,6 @@ diff -Naurp pvr.iptvsimple-adee8a7/pvr.iptvsimple/addon.xml.in pvr.iptvsimple-ad
 diff -Naurp pvr.iptvsimple-adee8a7/pvr.iptvsimple/resources/settings.xml pvr.iptvsimple-adee8a7-patch/pvr.iptvsimple/resources/settings.xml
 --- pvr.iptvsimple-adee8a7/pvr.iptvsimple/resources/settings.xml	2016-10-11 12:45:04.000000000 +0300
 +++ pvr.iptvsimple-adee8a7-patch/pvr.iptvsimple/resources/settings.xml	2016-11-03 09:46:44.000000000 +0200
-@@ -5,7 +5,7 @@
-     <setting id="sep1" label="30010" type="lsep"/> 
-     <setting id="m3uPathType" type="enum" label="30000" lvalues="30001|30002" default="1" />
-     <setting id="m3uPath" type="file" label="30011" default="" visible="eq(-1,0)"/>
--    <setting id="m3uUrl" type="text" label="30012" default="" visible="eq(-2,1)"/>
-+    <setting id="m3uUrl" type="text" label="30012" default="http://127.0.0.1:8000/channels/?type=m3u" visible="eq(-2,1)"/>
-     <setting id="m3uCache" type="bool" label="30025" default="true" visible="eq(-3,1)"/>
-     <setting id="startNum" type="number" label="30013" default="1" />
-   </category>
 @@ -15,7 +15,7 @@
      <setting id="sep2" label="30020" type="lsep"/>
      <setting id="epgPathType" type="enum" label="30000" lvalues="30001|30002" default="1" />
