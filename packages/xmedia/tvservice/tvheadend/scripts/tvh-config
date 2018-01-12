@@ -31,4 +31,4 @@ if [ "$TVH_FEINIT" == "1" ] ; then
   done
 fi
 
-echo "TVH_ARGS=\"$TVHEADEND_ARG\"" > /run/alexelec/tvh.conf
+echo "TVH_ARGS=\"$TVHEADEND_ARG\"" > /run/libreelec/tvh.conf
