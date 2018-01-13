@@ -4,7 +4,7 @@
 ################################################################################
 
 PKG_NAME="tvheadend"
-PKG_VERSION="1c38450"
+PKG_VERSION="1665c35"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
@@ -18,7 +18,7 @@ PKG_AUTORECONF="no"
 PKG_LOCALE_INSTALL="yes"
 
 unpack() {
-  git clone -b 'master' https://github.com/tvheadend/tvheadend.git $PKG_BUILD
+  git clone -b 'release/4.2' https://github.com/tvheadend/tvheadend.git $PKG_BUILD
   cd $PKG_BUILD
   git reset --hard $PKG_VERSION
   TVH_VERSION_NUMBER=`git describe --match "v*" | sed 's/-g.*$//'`
@@ -30,7 +30,9 @@ unpack() {
   rm -rf .git
 }
 
-TVH_TRANSCODING="--disable-ffmpeg_static --disable-libav"
+# transcoding only for generic
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libva-intel-driver"
+TVH_TRANSCODING="--enable-ffmpeg_static --enable-libav --enable-libfdkaac --disable-libtheora --disable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --disable-qsv"
 
 PKG_CONFIGURE_OPTS_TARGET="--prefix=/usr \
                            --arch=$TARGET_ARCH \
@@ -43,7 +45,6 @@ PKG_CONFIGURE_OPTS_TARGET="--prefix=/usr \
                            --disable-hdhomerun_client \
                            --disable-hdhomerun_static \
                            --disable-nvenc \
-                           $TVH_TRANSCODING \
                            --disable-bintray_cache \
                            --enable-dvbcsa \
                            --enable-tvhcsa \
@@ -55,6 +56,7 @@ PKG_CONFIGURE_OPTS_TARGET="--prefix=/usr \
                            --enable-inotify \
                            --enable-pngquant \
                            --nowerror \
+                           $TVH_TRANSCODING \
                            --python=$TOOLCHAIN/bin/python"
 
 pre_configure_target() {
@@ -62,8 +64,18 @@ pre_configure_target() {
   cd $PKG_BUILD
     rm -rf .$TARGET_NAME
 
-  export CROSS_COMPILE=$TARGET_PREFIX
+# transcoding
+  export AS=$TOOLCHAIN/bin/yasm
+  export LDFLAGS="$LDFLAGS -lX11 -lm -lvdpau -lva -lva-drm -lva-x11"
+  export ARCH=$TARGET_ARCH
+
+  export CROSS_COMPILE="$TARGET_PREFIX"
   export CFLAGS="$CFLAGS -I$SYSROOT_PREFIX/usr/include/iconv -L$SYSROOT_PREFIX/usr/lib/iconv"
+}
+
+# transcoding link tvheadend with g++
+pre_make_target() {
+    export CXX=$CXX
 }
 
 post_make_target() {
