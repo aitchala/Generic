@@ -52,6 +52,12 @@
         <startupwindow default="true">10000</startupwindow>
         <stereostrength default="true">5</stereostrength>
     </lookandfeel>
+    <pvrmanager>
+        <backendchannelorder default="true">true</backendchannelorder>
+        <hideconnectionlostwarning default="true">false</hideconnectionlostwarning>
+        <syncchannelgroups>true</syncchannelgroups>
+        <usebackendchannelnumbers default="true">false</usebackendchannelnumbers>
+    </pvrmanager>
     <pvrplayback>
         <channelentrytimeout default="true">0</channelentrytimeout>
         <confirmchannelswitch default="true">false</confirmchannelswitch>
