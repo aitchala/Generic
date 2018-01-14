@@ -4,7 +4,7 @@
 ################################################################################
 
 PKG_NAME="LibreELEC-settings"
-PKG_VERSION="a969901"
+PKG_VERSION="50b4a8b"
 PKG_ARCH="any"
 PKG_LICENSE="prop."
 PKG_SITE="https://github.com/AlexELEC/service.libreelec.settings"
