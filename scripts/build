@@ -54,6 +54,7 @@ fi
 
 if [ ! -f $STAMP ]; then
   rm -f $STAMP
+  echo "current build: $PACKAGE_NAME" > $CURRENT_PKGBUILD
 
   setup_toolchain $TARGET
 
