@@ -25,17 +25,6 @@ BUILD_DATE=`date +%Y%m%d%H%M%S`
 
 GIT_HASH=$(git rev-parse HEAD)
 
-if [ "$LIBREELEC_VERSION" = "devel" ]; then
-  if ! GIT_BUILD=$(git rev-list --count HEAD 2>/dev/null)
-  then
-    GIT_BUILD=$(git rev-list HEAD | wc -l)
-  fi
-  GIT_ABBREV=$(git log -1 --pretty=format:%h)
-  DEVEL_VERSION=$LIBREELEC_VERSION
-  LIBREELEC_VERSION=$LIBREELEC_VERSION-$BUILD_DATE-r$GIT_BUILD-g$GIT_ABBREV
-  echo "$LIBREELEC_VERSION" > $BUILD/BUILD_FILENAME
-fi
-
 # Get origin url, fix git:// and git@github.com: urls if necessary
 ORIGIN_URL="$(git remote -v | awk '$1 == "origin" { print $2 }' | head -1 | sed 's#\.git$##;s#^git:#https:#;s#^git@github\.com:#https://github.com/#')"
 
