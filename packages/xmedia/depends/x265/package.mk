@@ -4,7 +4,7 @@
 ################################################################################
 
 PKG_NAME="x265"
-PKG_VERSION="2.5"
+PKG_VERSION="2.7"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/videolan/x265"
