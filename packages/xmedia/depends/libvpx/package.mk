@@ -4,7 +4,7 @@
 ################################################################################
 
 PKG_NAME="libvpx"
-PKG_VERSION="1.6.1"
+PKG_VERSION="1.7.0"
 PKG_ARCH="any"
 PKG_LICENSE="BSD"
 PKG_SITE="https://www.webmproject.org"
