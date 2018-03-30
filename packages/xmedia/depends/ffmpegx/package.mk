@@ -1,19 +1,6 @@
 ################################################################################
-#      This file is part of LibreELEC - https://libreelec.tv
-#      Copyright (C) 2016-present Team LibreELEC
-#
-#  LibreELEC is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  LibreELEC is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with LibreELEC.  If not, see <http://www.gnu.org/licenses/>.
+#      This file is part of Alex@ELEC - http://www.alexelec.in.ua
+#      Copyright (C) 2011-present Alexandr Zuyev (alex@alexelec.in.ua)
 ################################################################################
 
 PKG_NAME="ffmpegx"
@@ -23,22 +10,10 @@ PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="https://github.com/FFmpeg/FFmpeg/archive/n${PKG_VERSION}.tar.gz"
 PKG_SOURCE_DIR="FFmpeg-n${PKG_VERSION}"
-PKG_DEPENDS_TARGET="toolchain bzip2 fdk-aac libvorbis openssl opus x264 x265 zlib"
-PKG_SECTION="multimedia"
+PKG_DEPENDS_TARGET="toolchain bzip2 fdk-aac libvorbis openssl opus x264 x265 libvpx zlib"
+PKG_SECTION="xmedia/depends"
 PKG_LONGDESC="FFmpegx is an complete FFmpeg build to support encoding and decoding"
 PKG_AUTORECONF="no"
-
-# Dependencies
-get_graphicdrivers
-
-if [ "$KODIPLAYER_DRIVER" == "bcm2835-driver" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET bcm2835-driver"
-fi
-
-# ARMv6 is no longer supported by libvpx
-if [ "$PROJECT" != "RPi" -a "$PROJECT" != "Slice" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libvpx"
-fi
 
 pre_configure_target() {
   cd $PKG_BUILD
@@ -48,35 +23,8 @@ pre_configure_target() {
   strip_gold
   strip_lto
 
-  if [ "$KODIPLAYER_DRIVER" == "bcm2835-driver" ]; then
-    CFLAGS="-DRPI=1 -I$SYSROOT_PREFIX/usr/include/IL -I$SYSROOT_PREFIX/usr/include/interface/vcos/pthreads -I$SYSROOT_PREFIX/usr/include/interface/vmcs_host/linux $CFLAGS"
-    PKG_FFMPEG_LIBS="-lbcm_host -ldl -lmmal -lmmal_core -lmmal_util -lvchiq_arm -lvcos -lvcsm"
-  fi
-
-  if [ "$TARGET_ARCH" == "arm" ]; then
-    PKG_FFMPEG_ARM_AO="--enable-hardcoded-tables"
-  fi
-
 # HW encoders
-
-  # RPi 0-3
-  if [ "$KODIPLAYER_DRIVER" == "bcm2835-driver" ]; then
-    PKG_FFMPEG_HW_ENCODERS_RPi="\
-    `#Video encoders` \
-    --enable-omx-rpi \
-    --enable-mmal \
-    --enable-encoder=h264_omx \
-    \
-    `#Video hwaccel` \
-    --enable-hwaccel=h264_mmal \
-    --enable-hwaccel=mpeg2_mmal \
-    --enable-hwaccel=mpeg4_mmal \
-    --enable-hwaccel=vc1_mmal"
-  fi
-
-  # Generic
-  if [[ "$TARGET_ARCH" = "x86_64" ]]; then
-    PKG_FFMPEG_HW_ENCODERS_GENERIC="\
+  PKG_FFMPEG_HW_ENCODERS="\
     `#Video encoders` \
     --enable-encoder=h264_nvenc \
     --enable-encoder=h264_vaapi \
@@ -96,10 +44,9 @@ pre_configure_target() {
     --enable-hwaccel=vc1_vaapi \
     --enable-hwaccel=vp9_vaapi \
     --enable-hwaccel=wmv3_vaapi"
-  fi
 
 # Encoders
-    PKG_FFMPEG_ENCODERS="\
+  PKG_FFMPEG_ENCODERS="\
     `#Video encoders` \
     --enable-libvpx \
     --enable-encoder=libvpx_vp8 \
@@ -145,8 +92,7 @@ configure_target() {
     --disable-doc \
     \
     `#Hardware accelerated decoding encoding` \
-    $PKG_FFMPEG_HW_ENCODERS_RPi \
-    $PKG_FFMPEG_HW_ENCODERS_GENERIC \
+    $PKG_FFMPEG_HW_ENCODERS \
     \
     `#General options` \
     --enable-avresample \
@@ -175,9 +121,6 @@ configure_target() {
     --extra-version="x" \
     --enable-pic \
     --enable-openssl \
-    \
-    `#Advanced options` \
-    $PKG_FFMPEG_ARM_AO \
 
 }
 
