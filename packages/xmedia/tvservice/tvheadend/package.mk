@@ -45,11 +45,11 @@ PKG_TVH_TRANSCODING="\
   --disable-libvpx_static \
   --disable-libx264_static \
   --disable-libx265_static \
+  --disable-libvpx \
   --enable-libav \
   --enable-libfdkaac \
   --enable-libopus \
   --enable-libvorbis \
-  --enable-libvpx \
   --enable-libx264 \
   --enable-libx265"
 
@@ -65,6 +65,8 @@ PKG_CONFIGURE_OPTS_TARGET="--prefix=/usr \
                            --disable-hdhomerun_client \
                            --disable-hdhomerun_static \
                            --disable-bintray_cache \
+                           --disable-libmfx_static \
+                           --disable-nvenc \
                            --enable-dvbcsa \
                            --enable-tvhcsa \
                            --enable-dvben50221 \

@@ -4,13 +4,13 @@
 ################################################################################
 
 PKG_NAME="ffmpegx"
-PKG_VERSION="3.4"
+PKG_VERSION="3.4.2"
 PKG_ARCH="any"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="https://github.com/FFmpeg/FFmpeg/archive/n${PKG_VERSION}.tar.gz"
 PKG_SOURCE_DIR="FFmpeg-n${PKG_VERSION}"
-PKG_DEPENDS_TARGET="toolchain bzip2 fdk-aac libvorbis openssl opus x264 x265 libvpx zlib"
+PKG_DEPENDS_TARGET="toolchain bzip2 fdk-aac libvorbis openssl opus x264 x265 libvpx zlib libxcb libX11"
 PKG_SECTION="xmedia/depends"
 PKG_LONGDESC="FFmpegx is an complete FFmpeg build to support encoding and decoding"
 PKG_AUTORECONF="no"
@@ -69,6 +69,13 @@ pre_configure_target() {
     --enable-libvorbis \
     --enable-encoder=libvorbis"
 
+# X11 grab for screen recording
+  PKG_FFMPEG_LIBS="$PKG_FFMPEG_LIBS -lX11"
+  PKG_FFMPEG_X11_GRAB="\
+    --enable-libxcb \
+    --enable-libxcb-shm \
+    --enable-libxcb-xfixes \
+    --enable-libxcb-shape"
 }
 
 configure_target() {
@@ -96,6 +103,9 @@ configure_target() {
     \
     `#General options` \
     --enable-avresample \
+    --disable-lzma \
+    --disable-alsa \
+    $PKG_FFMPEG_X11_GRAB \
     \
     `#Toolchain options` \
     --arch="$TARGET_ARCH" \
