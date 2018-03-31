@@ -40,8 +40,8 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/modules/$KERNEL_VER/updates/tbs
-  find $PKG_BUILD/linux-tbs-drivers/ -name \*.ko -exec cp {} $INSTALL/usr/lib/modules/$KERNEL_VER/updates/tbs \;
-  mkdir -p $INSTALL/lib/firmware/
-  cp $PKG_BUILD/*.fw $INSTALL/lib/firmware/
+  mkdir -p $INSTALL/usr/lib/modules/$KERNEL_VER/updates
+  find $PKG_BUILD/linux-tbs-drivers/ -name \*.ko -exec cp {} $INSTALL/usr/lib/modules/$KERNEL_VER/updates \;
+  mkdir -p $INSTALL/usr/lib/firmware/
+  cp $PKG_BUILD/*.fw $INSTALL/usr/lib/firmware/
 }
