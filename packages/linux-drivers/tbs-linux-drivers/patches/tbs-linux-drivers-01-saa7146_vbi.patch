@@ -1,0 +1,305 @@
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/common/saa7146_vbi.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/common/saa7146_vbi.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/common/saa7146_vbi.c	2011-01-10 17:24:45.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/common/saa7146_vbi.c	2018-03-31 12:44:48.000000000 +0300
+@@ -1,4 +1,5 @@
+ #include <media/saa7146_vv.h>
++#include <linux/sched/signal.h>
+ 
+ static int vbi_pixel_to_capture = 720 * 2;
+ 
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/common/saa716x/saa716x_pci.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/common/saa716x/saa716x_pci.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/common/saa716x/saa716x_pci.c	2013-03-18 21:40:05.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/common/saa716x/saa716x_pci.c	2018-03-31 12:46:52.000000000 +0300
+@@ -46,7 +46,7 @@ static int saa716x_enable_msix(struct sa
+ 	for (i = 0; i < SAA716x_MSI_MAX_VECTORS; i++)
+ 		saa716x->msix_entries[i].entry = i;
+ 
+-	ret = pci_enable_msix(pdev, saa716x->msix_entries, SAA716x_MSI_MAX_VECTORS);
++	ret = pci_enable_msix_range(pdev, saa716x->msix_entries, SAA716x_MSI_MAX_VECTORS, SAA716x_MSI_MAX_VECTORS);
+ 	if (ret < 0)
+ 		dprintk(SAA716x_ERROR, 1, "MSI-X request failed <%d>", ret);
+ 	if (ret > 0)
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ca_en50221.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ca_en50221.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ca_en50221.c	2016-07-01 04:39:32.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ca_en50221.c	2018-03-31 12:47:43.000000000 +0300
+@@ -37,6 +37,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/sched.h>
+ #include <linux/kthread.h>
++#include <linux/sched/signal.h>
+ 
+ #include "dvb_ca_en50221.h"
+ #include "dvb_ringbuffer.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_demux.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_demux.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_demux.c	2011-05-03 06:45:27.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_demux.c	2018-03-31 12:48:23.000000000 +0300
+@@ -29,6 +29,7 @@
+ #include <linux/poll.h>
+ #include <linux/string.h>
+ #include <linux/crc32.h>
++#include <linux/sched/signal.h>
+ #include <asm/uaccess.h>
+ #include <asm/div64.h>
+ 
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_frontend.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_frontend.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_frontend.c	2013-07-26 00:33:19.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_frontend.c	2018-03-31 12:48:51.000000000 +0300
+@@ -42,6 +42,7 @@
+ #include "dvb_frontend.h"
+ #include "dvbdev.h"
+ #include <linux/dvb/version.h>
++#include <linux/sched/signal.h>
+ 
+ static int dvb_frontend_debug;
+ static int dvb_shutdown_timeout;
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ringbuffer.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ringbuffer.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ringbuffer.c	2010-07-04 00:22:08.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/dvb-core/dvb_ringbuffer.c	2018-03-31 12:49:19.000000000 +0300
+@@ -31,6 +31,8 @@
+ #include <linux/module.h>
+ #include <linux/sched.h>
+ #include <linux/string.h>
++#include <linux/sched/signal.h>
++#include <linux/uaccess.h>
+ #include <asm/uaccess.h>
+ 
+ #include "dvb_ringbuffer.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/ngene/ngene-cards.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/ngene/ngene-cards.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/ngene/ngene-cards.c	2013-03-18 21:40:05.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/ngene/ngene-cards.c	2018-03-31 12:50:57.000000000 +0300
+@@ -509,12 +509,6 @@ static pci_ers_result_t ngene_error_dete
+ 	return PCI_ERS_RESULT_CAN_RECOVER;
+ }
+ 
+-static pci_ers_result_t ngene_link_reset(struct pci_dev *dev)
+-{
+-	printk(KERN_INFO DEVICE_NAME ": link reset\n");
+-	return 0;
+-}
+-
+ static pci_ers_result_t ngene_slot_reset(struct pci_dev *dev)
+ {
+ 	printk(KERN_INFO DEVICE_NAME ": slot reset\n");
+@@ -528,7 +522,6 @@ static void ngene_resume(struct pci_dev
+ 
+ static struct pci_error_handlers ngene_errors = {
+ 	.error_detected = ngene_error_detected,
+-	.link_reset = ngene_link_reset,
+ 	.slot_reset = ngene_slot_reset,
+ 	.resume = ngene_resume,
+ };
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/pt1/pt1.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/pt1/pt1.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/dvb/pt1/pt1.c	2013-03-18 21:40:05.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/dvb/pt1/pt1.c	2018-03-31 12:51:35.000000000 +0300
+@@ -28,6 +28,7 @@
+ #include <linux/pci.h>
+ #include <linux/kthread.h>
+ #include <linux/freezer.h>
++#include <linux/sched/signal.h>
+ 
+ #include "dvbdev.h"
+ #include "dvb_demux.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/rc/lirc_dev.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/rc/lirc_dev.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/rc/lirc_dev.c	2015-04-29 01:24:49.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/rc/lirc_dev.c	2018-03-31 12:52:10.000000000 +0300
+@@ -34,6 +34,7 @@
+ #include <linux/bitops.h>
+ #include <linux/device.h>
+ #include <linux/cdev.h>
++#include <linux/sched/signal.h>
+ 
+ #include <media/lirc.h>
+ #include <media/lirc_dev.h>
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/arv.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/arv.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/arv.c	2011-06-30 00:36:40.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/arv.c	2018-03-31 12:52:44.000000000 +0300
+@@ -32,6 +32,7 @@
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
+ #include <linux/mutex.h>
++#include <linux/sched/signal.h>
+ 
+ #include <asm/uaccess.h>
+ #include <asm/m32r.h>
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_core.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_core.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_core.c	2011-03-11 23:10:10.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_core.c	2018-03-31 12:53:20.000000000 +0300
+@@ -35,6 +35,7 @@
+ #include <linux/mm.h>
+ #include <linux/vmalloc.h>
+ #include <linux/firmware.h>
++#include <linux/sched/signal.h>
+ 
+ /* #define _CPIA2_DEBUG_ */
+ 
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_v4l.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_v4l.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_v4l.c	2011-06-30 00:36:40.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cpia2/cpia2_v4l.c	2018-03-31 12:53:51.000000000 +0300
+@@ -38,6 +38,7 @@
+ #include <linux/init.h>
+ #include <linux/videodev2.h>
+ #include <linux/stringify.h>
++#include <linux/sched/signal.h>
+ #include <media/v4l2-ioctl.h>
+ 
+ #include "cpia2.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cx18/cx18-driver.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cx18/cx18-driver.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/cx18/cx18-driver.c	2013-03-18 21:40:05.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/cx18/cx18-driver.c	2018-03-31 12:54:42.000000000 +0300
+@@ -22,6 +22,8 @@
+  *  02111-1307  USA
+  */
+ 
++#include <linux/sched/signal.h>
++
+ #include "cx18-driver.h"
+ #include "cx18-io.h"
+ #include "cx18-version.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/gspca/cpia1.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/gspca/cpia1.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/gspca/cpia1.c	2011-05-22 06:45:27.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/gspca/cpia1.c	2018-03-31 12:55:28.000000000 +0300
+@@ -29,6 +29,7 @@
+ #define MODULE_NAME "cpia1"
+ 
+ #include <linux/input.h>
++#include <linux/sched/signal.h>
+ #include "gspca.h"
+ 
+ MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-driver.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-driver.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-driver.c	2017-02-06 05:30:01.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-driver.c	2018-03-31 12:56:14.000000000 +0300
+@@ -59,6 +59,8 @@
+ #include <media/tveeprom.h>
+ #include <media/saa7115.h>
+ #include <media/v4l2-chip-ident.h>
++#include <linux/sched/signal.h>
++#include <uapi/linux/sched/types.h>
+ #include "tuner-xc2028.h"
+ 
+ /* If you have already X v4l cards, then set this to X. This way
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtvfb.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtvfb.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtvfb.c	2012-06-01 21:37:11.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtvfb.c	2018-03-31 12:56:49.000000000 +0300
+@@ -43,6 +43,7 @@
+ #include <linux/fb.h>
+ #include <linux/ivtvfb.h>
+ #include <linux/slab.h>
++#include <linux/sched/signal.h>
+ 
+ #ifdef CONFIG_MTRR
+ #include <asm/mtrr.h>
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-fileops.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-fileops.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-fileops.c	2011-07-02 06:45:33.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-fileops.c	2018-03-31 12:57:15.000000000 +0300
+@@ -35,6 +35,7 @@
+ #include "ivtv-firmware.h"
+ #include <media/v4l2-event.h>
+ #include <media/saa7115.h>
++#include <linux/sched/signal.h>
+ 
+ /* This function tries to claim the stream for a specific file descriptor.
+    If no one else is using this stream then the stream is claimed and
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-ioctl.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-ioctl.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-ioctl.c	2011-10-09 22:33:14.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-ioctl.c	2018-03-31 12:57:37.000000000 +0300
+@@ -37,6 +37,7 @@
+ #include <media/v4l2-chip-ident.h>
+ #include <media/v4l2-event.h>
+ #include <linux/dvb/audio.h>
++#include <linux/sched/signal.h>
+ 
+ u16 ivtv_service2vbi(int type)
+ {
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-yuv.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-yuv.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-yuv.c	2017-02-06 05:47:29.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/ivtv/ivtv-yuv.c	2018-03-31 12:58:19.000000000 +0300
+@@ -18,6 +18,7 @@
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+ 
++#include <linux/sched/signal.h>
+ #include "ivtv-driver.h"
+ #include "ivtv-udma.h"
+ #include "ivtv-yuv.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/pvrusb2/pvrusb2-ioread.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/pvrusb2/pvrusb2-ioread.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/pvrusb2/pvrusb2-ioread.c	2010-07-04 22:38:07.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/pvrusb2/pvrusb2-ioread.c	2018-03-31 12:59:00.000000000 +0300
+@@ -25,6 +25,7 @@
+ #include <linux/mm.h>
+ #include <linux/slab.h>
+ #include <linux/mutex.h>
++#include <linux/uaccess.h>
+ #include <asm/uaccess.h>
+ 
+ #define BUFFER_COUNT 32
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/videobuf-dma-sg.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/videobuf-dma-sg.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/videobuf-dma-sg.c	2017-03-30 09:30:54.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/videobuf-dma-sg.c	2018-03-31 13:03:28.000000000 +0300
+@@ -408,27 +408,18 @@ static void videobuf_vm_close(struct vm_
+  * now ...).  Bounce buffers don't work very well for the data rates
+  * video capture has.
+  */
+-static int videobuf_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
++static int videobuf_vm_fault(struct vm_fault *vmf)
+ {
++	struct vm_area_struct *vma = vmf->vma;
+ 	struct page *page;
+-	
+-	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
+-		dprintk(3, "fault: fault @ %08lx [vma %08lx-%08lx]\n",  (unsigned long)vmf->virtual_address,vma->vm_start, vma->vm_end);
+-	#else
+-		dprintk(3, "fault: fault @ %08lx [vma %08lx-%08lx]\n", vmf->address,vma->vm_start, vma->vm_end);
+-	#endif
++
++	dprintk(3, "fault: fault @ %08lx [vma %08lx-%08lx]\n",
++	vmf->address, vma->vm_start, vma->vm_end);
+ 
+ 	page = alloc_page(GFP_USER | __GFP_DMA32);
+ 	if (!page)
+ 		return VM_FAULT_OOM;
+-	
+-        #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
+-                clear_user_highpage(page, (unsigned long)vmf->virtual_address);
+-        #else
+-                clear_user_highpage(page, vmf->address);
+-        #endif
+-
+-
++	clear_user_highpage(page, vmf->address);
+ 	vmf->page = page;
+ 
+ 	return 0;
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_device.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_device.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_device.c	2012-06-01 21:35:57.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_device.c	2018-03-31 13:04:59.000000000 +0300
+@@ -44,6 +44,7 @@
+ #include <linux/pci.h>
+ #include <linux/delay.h>
+ #include <linux/wait.h>
++#include <linux/sched/signal.h>
+ 
+ #include <asm/byteorder.h>
+ #include <asm/io.h>
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_driver.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_driver.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_driver.c	2013-03-18 21:40:05.000000000 +0200
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/media/video/zoran/zoran_driver.c	2018-03-31 13:05:27.000000000 +0300
+@@ -69,6 +69,7 @@
+ #include <linux/proc_fs.h>
+ 
+ #include <linux/mutex.h>
++#include <linux/sched/signal.h>
+ #include "zoran.h"
+ #include "zoran_device.h"
+ #include "zoran_card.h"
+diff -Naurp tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/staging/go7007/go7007-v4l2.c tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/staging/go7007/go7007-v4l2.c
+--- tbs-linux-drivers-v170330/linux-tbs-drivers/linux/drivers/staging/go7007/go7007-v4l2.c	2012-06-01 21:49:13.000000000 +0300
++++ tbs-linux-drivers-v170330-patch/linux-tbs-drivers/linux/drivers/staging/go7007/go7007-v4l2.c	2018-03-31 13:06:16.000000000 +0300
+@@ -34,6 +34,7 @@
+ #include <linux/i2c.h>
+ #include <linux/mutex.h>
+ #include <linux/uaccess.h>
++#include <linux/sched/signal.h>
+ 
+ #include "go7007.h"
+ #include "go7007-priv.h"
