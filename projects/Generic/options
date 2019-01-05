@@ -85,4 +85,11 @@
   # for a list of additinoal drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-    ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS bcm_sta media_build"
+    ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS bcm_sta"
+
+  # additional DVB drivers to install:
+    if [ "$DRV" = "TBS" ] ; then
+        ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS tbs-linux-drivers"
+    else
+        ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS media_build"
+    fi
